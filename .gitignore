@@ -3,6 +3,13 @@
 *.a
 *.so
 
+# mcellLite stuff
+mcellLite
+Makefile
+
+# sublime3 stuff
+*sublime*
+
 # Folders
 _obj
 _test

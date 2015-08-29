@@ -9,14 +9,13 @@ import (
 // Event describes an event interface
 type Event interface {
 	Execute() error // execute the event
-	Type() int      // type of event
 	Time() float64  // time of event
 }
 
 // Diffusion describes a diffusion event
 type Diffusion struct {
-	mol *types.Molecule
-	t   float64
+	Mol *types.Molecule
+	T   float64
 }
 
 // Execute method for Diffusion event
@@ -25,12 +24,7 @@ func (d Diffusion) Execute() error {
 	return nil
 }
 
-// Type method for Diffusion event
-func (d Diffusion) Type() int {
-	return 0
-}
-
 // Time method for diffusion event
 func (d Diffusion) Time() float64 {
-	return d.t
+	return d.T
 }

@@ -12,6 +12,6 @@ type Species struct {
 
 // Molecule represents a generic molecule
 type Molecule struct {
-	Species
-	Pos geometry.Vec3
+	Species               // what species are we
+	Pos     geometry.Vec3 // where are we
 }

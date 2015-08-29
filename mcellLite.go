@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	geom "github.com/haskelladdict/mcellLite/geometry"
+	"github.com/haskelladdict/mcellLite/types"
 )
 
 // Simulation contains all information related to simulation control such as
@@ -24,36 +25,6 @@ import (
 // 	MolReceiver <-chan *types.Molecule
 // 	Messager    chan struct{}
 // 	Commander   chan int
-// }
-
-// makeCube returns an object corresponding to a regular cube
-// func makeCube() geometry.Object {
-
-// 	v0 := geometry.Vec3{1, 1, -1}
-// 	v1 := geometry.Vec3{1, -1, -1}
-// 	v2 := geometry.Vec3{-1, -1, -1}
-// 	v3 := geometry.Vec3{-1, 1, 1}
-// 	v4 := geometry.Vec3{1, 1, 1}
-// 	v5 := geometry.Vec3{1, -1, 1}
-// 	v6 := geometry.Vec3{-1, -1, 1}
-// 	v7 := geometry.Vec3{-1, 1, 1}
-
-// 	faces := []*geometry.Face{
-// 		{v1, v2, v3},
-// 		{v7, v6, v5},
-// 		{v0, v4, v5},
-// 		{v1, v5, v6},
-// 		{v6, v7, v3},
-// 		{v0, v3, v7},
-// 		{v0, v1, v3},
-// 		{v4, v7, v5},
-// 		{v1, v0, v5},
-// 		{v2, v1, v6},
-// 		{v2, v6, v3},
-// 		{v4, v0, v7},
-// 	}
-
-// 	return geometry.Object{faces}
 // }
 
 // Run is in charge of running all events occurring within the given
@@ -112,6 +83,14 @@ func main() {
 	// go p.Run()
 	// p.Commander <- 1
 	// <-msgCh
+
+	a := types.Species{"A", 600}
+	var mols []types.Mol3
+	molMap := make(map[string][]types.Mol3)
+	for i := 0; i < 10000; i++ {
+		mols = append(mols, types.Mol3{&a, geom.Vec3{0.0, 0.0, 0.0}, 0.0})
+	}
+	molMap[a.Name] = mols
 
 	fmt.Println("Hi")
 	m := geom.CreateRect(&geom.Vec3{-1.0, -1.0, -1.0}, &geom.Vec3{1.0, 1.0, 1.0})

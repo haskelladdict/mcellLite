@@ -10,11 +10,13 @@ import (
 
 // Species represents a molecule type
 type Species struct {
-	D float64
+	Name string  // species name
+	D    float64 // diffusion coefficient
 }
 
-// Molecule represents a generic molecule
-type Molecule struct {
-	Species               // what species are we
-	Pos     geometry.Vec3 // where are we
+// Molecule represents a volume (3D) molecule
+type Mol3 struct {
+	Spec *Species      // what species are we
+	R    geometry.Vec3 // where are we
+	Bday float64       // when were we born
 }

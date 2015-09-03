@@ -6,6 +6,7 @@
 # mcellLite stuff
 mcellLite
 Makefile
+.tags*
 
 # sublime3 stuff
 *sublime*

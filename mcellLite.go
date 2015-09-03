@@ -4,9 +4,12 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 
+	"github.com/haskelladdict/mcellLite/engine"
 	geom "github.com/haskelladdict/mcellLite/geometry"
-	"github.com/haskelladdict/mcellLite/types"
+	mol "github.com/haskelladdict/mcellLite/molecule"
+	vec "github.com/haskelladdict/mcellLite/vector"
 )
 
 // Simulation contains all information related to simulation control such as
@@ -64,8 +67,8 @@ func main() {
 
 	// // prepare partition
 	// aMol := types.Species{6e-6}
-	// mol1 := types.Molecule{Species: aMol, Pos: geometry.Vec3{0.5, 0.5, 0.6}}
-	// mol2 := types.Molecule{Species: aMol, Pos: geometry.Vec3{0.3, 0.2, 0.4}}
+	// mol1 := types.Molecule{Species: aMol, Pos: geometry.V3{0.5, 0.5, 0.6}}
+	// mol2 := types.Molecule{Species: aMol, Pos: geometry.V3{0.3, 0.2, 0.4}}
 	// mols := []*types.Molecule{&mol1, &mol2}
 
 	// molCh := make(chan *types.Molecule)
@@ -84,17 +87,18 @@ func main() {
 	// p.Commander <- 1
 	// <-msgCh
 
-	a := types.Species{"A", 600}
-	var mols []types.Mol3
-	molMap := make(map[string][]types.Mol3)
+	a := mol.Species{"A", 600}
+	var mols []mol.Mol3
+	molMap := make(map[string][]mol.Mol3)
 	for i := 0; i < 10000; i++ {
-		mols = append(mols, types.Mol3{&a, geom.Vec3{0.0, 0.0, 0.0}, 0.0})
+		mols = append(mols, mol.Mol3{&a, vec.V3{0.0, 0.0, 0.0}, 0.0})
 	}
 	molMap[a.Name] = mols
 
 	fmt.Println("Hi")
-	m := geom.CreateRect(&geom.Vec3{-1.0, -1.0, -1.0}, &geom.Vec3{1.0, 1.0, 1.0})
-	fmt.Println(m)
+	rng := rand.New(rand.NewSource(99))
+	m := geom.CreateRect(vec.V3{-1.0, -1.0, -1.0}, vec.V3{1.0, 1.0, 1.0})
+	engine.Diffuse(&mol.Mol3{&a, vec.V3{0.0, 0.0, 0.0}, 0.0}, 1e-6, m, rng)
 }
 
 /*

@@ -67,8 +67,8 @@ func main() {
 
 	// // prepare partition
 	// aMol := types.Species{6e-6}
-	// mol1 := types.Molecule{Species: aMol, Pos: geometry.V3{0.5, 0.5, 0.6}}
-	// mol2 := types.Molecule{Species: aMol, Pos: geometry.V3{0.3, 0.2, 0.4}}
+	// mol1 := types.Molecule{Species: aMol, Pos: geometry.Vec3{0.5, 0.5, 0.6}}
+	// mol2 := types.Molecule{Species: aMol, Pos: geometry.Vec3{0.3, 0.2, 0.4}}
 	// mols := []*types.Molecule{&mol1, &mol2}
 
 	// molCh := make(chan *types.Molecule)
@@ -91,14 +91,14 @@ func main() {
 	var mols []mol.Mol3
 	molMap := make(map[string][]mol.Mol3)
 	for i := 0; i < 10000; i++ {
-		mols = append(mols, mol.Mol3{&a, vec.V3{0.0, 0.0, 0.0}, 0.0})
+		mols = append(mols, mol.Mol3{&a, vec.Vec3{0.0, 0.0, 0.0}, 0.0})
 	}
 	molMap[a.Name] = mols
 
 	fmt.Println("Hi")
 	rng := rand.New(rand.NewSource(99))
-	m := geom.CreateRect(vec.V3{-1.0, -1.0, -1.0}, vec.V3{1.0, 1.0, 1.0})
-	engine.Diffuse(&mol.Mol3{&a, vec.V3{0.0, 0.0, 0.0}, 0.0}, 1e-6, m, rng)
+	m := geom.CreateRect(vec.Vec3{-1.0, -1.0, -1.0}, vec.Vec3{1.0, 1.0, 1.0})
+	engine.Diffuse(&mol.Mol3{&a, vec.Vec3{0.0, 0.0, 0.0}, 0.0}, 1e-6, m, rng)
 }
 
 /*

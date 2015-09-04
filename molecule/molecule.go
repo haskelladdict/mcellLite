@@ -15,11 +15,11 @@ type Species struct {
 // Molecule represents a volume (3D) molecule
 type Mol3 struct {
 	Spec *Species // what species are we
-	R    vec.V3   // where are we
+	R    vec.Vec3   // where are we
 	Bday float64  // when were we born
 }
 
 // moveTo moves the given molecule to the specified position
-func (m *Mol3) MoveTo(newPos vec.V3) {
+func (m *Mol3) MoveTo(newPos vec.Vec3) {
 	m.R = newPos
 }

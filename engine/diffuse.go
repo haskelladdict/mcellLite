@@ -19,7 +19,7 @@ import (
 func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 	// compute displacement
 	scale := math.Sqrt(4 * mol.Spec.D * dt)
-	disp := vec.V3{scale * rng.NormFloat64(), scale * rng.NormFloat64(),
+	disp := vec.Vec3{scale * rng.NormFloat64(), scale * rng.NormFloat64(),
 		scale * rng.NormFloat64()}
 
 	fmt.Println(disp, mol)
@@ -35,7 +35,7 @@ func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 // Collide checks for collisions of molecule mol along disp with mesh elements
 // If a collisions occurs it returns the hitPoint and true. If no collision
 // occurs it returns nil and false
-func Collide(mol *molecule.Mol3, disp vec.V3, mesh geom.Mesh) (vec.V3, bool) {
+func Collide(mol *molecule.Mol3, disp vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
 
 	for _, m := range mesh {
 		hitPoint, status := geom.Intersect(mol.R, disp, &m)
@@ -64,5 +64,5 @@ func Collide(mol *molecule.Mol3, disp vec.V3, mesh geom.Mesh) (vec.V3, bool) {
 		}
 		return hitPoint, true
 	}
-	return vec.NullV3, false
+	return vec.NullVec3, false
 }

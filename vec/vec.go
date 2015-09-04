@@ -10,55 +10,55 @@ import (
 	"github.com/haskelladdict/mcellLite/util"
 )
 
-// V3 is a 3D vector
-type V3 struct {
+// Vec3 is a 3D vector
+type Vec3 struct {
 	X, Y, Z float64
 }
 
-// NullV3 is a convenience definition for the null vector
-var NullV3 = V3{0.0, 0.0, 0.0}
+// NullVec3 is a convenience definition for the null vector
+var NullVec3 = Vec3{0.0, 0.0, 0.0}
 
-// Norm2 is a method for V3 computing its squared L2 norm
-func (v V3) Norm2() float64 {
+// Norm2 is a method for Vec3 computing its squared L2 norm
+func (v Vec3) Norm2() float64 {
 	return v.Dot(v)
 }
 
-// Norm is a method for V3 computing its L2 norm
-func (v V3) Norm() float64 {
+// Norm is a method for Vec3 computing its L2 norm
+func (v Vec3) Norm() float64 {
 	return math.Sqrt(v.Norm2())
 }
 
-// Scalar computes the scalar multiplication of scalar a with V3 v
-func (v V3) Scalar(a float64) V3 {
-	return V3{a * v.X, a * v.Y, a * v.Z}
+// Scalar computes the scalar multiplication of scalar a with Vec3 v
+func (v Vec3) Scalar(a float64) Vec3 {
+	return Vec3{a * v.X, a * v.Y, a * v.Z}
 }
 
-// Sub subtracts V3 v and V3 w
-func (v V3) Sub(w V3) V3 {
-	return V3{v.X - w.X, v.Y - w.Y, v.Z - w.Z}
+// Sub subtracts Vec3 v and Vec3 w
+func (v Vec3) Sub(w Vec3) Vec3 {
+	return Vec3{v.X - w.X, v.Y - w.Y, v.Z - w.Z}
 }
 
-// Add adds V3 v and V3 w
-func (v V3) Add(w V3) V3 {
-	return V3{v.X + w.X, v.Y + w.Y, v.Z + w.Z}
+// Add adds Vec3 v and Vec3 w
+func (v Vec3) Add(w Vec3) Vec3 {
+	return Vec3{v.X + w.X, v.Y + w.Y, v.Z + w.Z}
 }
 
-// Cross computes the cross product of V3 v with V3 w
-func (v V3) Cross(w V3) V3 {
-	return V3{
+// Cross computes the cross product of Vec3 v with Vec3 w
+func (v Vec3) Cross(w Vec3) Vec3 {
+	return Vec3{
 		v.Y*w.Z - v.Z*w.Y,
 		v.Z*w.X - v.X*w.Z,
 		v.X*w.Y - v.Y*w.X,
 	}
 }
 
-// Equal determines if V3 v and w are identical. Identity is determined via
+// Equal determines if Vec3 v and w are identical. Identity is determined via
 // component-wise identity
-func (v V3) Equal(w V3) bool {
+func (v Vec3) Equal(w Vec3) bool {
 	return util.Equal(v.X, w.X) && util.Equal(v.Y, w.Y) && util.Equal(v.Z, w.Z)
 }
 
-// Dot computes the dot product of V3 v with V3 w
-func (v V3) Dot(w V3) float64 {
+// Dot computes the dot product of Vec3 v with Vec3 w
+func (v Vec3) Dot(w Vec3) float64 {
 	return (v.X * w.X) + (v.Y * w.Y) + (v.Z * w.Z)
 }

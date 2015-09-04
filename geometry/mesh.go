@@ -14,16 +14,16 @@ import (
 // MeshElem describes a single triangular mesh element which may be part of
 // a larger Mesh object.
 type MeshElem struct {
-	A, B, C vec.V3 // triangle vertices
-	U, V    vec.V3 // u, v coordinates of mesh element
-	N, NN   vec.V3 // normal and normalized normal vectors
+	A, B, C vec.Vec3 // triangle vertices
+	U, V    vec.Vec3 // u, v coordinates of mesh element
+	N, NN   vec.Vec3 // normal and normalized normal vectors
 }
 
 // NewMeshElem creates a new MeshElem and also properly computes the additional
 // data members.
 // NOTE: NewMeshElem assumes that v1, v2, v3 are not colinear, otherwise the
 // function will panic
-func NewMeshElem(v1, v2, v3 vec.V3) *MeshElem {
+func NewMeshElem(v1, v2, v3 vec.Vec3) *MeshElem {
 	u := v2.Sub(v1)
 	v := v3.Sub(v1)
 	n := u.Cross(v)
@@ -42,15 +42,15 @@ type Mesh []MeshElem
 // CreateRect is a helper function creating a rectangular Mesh consisting of
 // 12 individual MeshElem. The rectangle dimensions are specified by providing
 // the coordinates of the lower left and upper right vertex
-func CreateRect(llc, urc vec.V3) Mesh {
+func CreateRect(llc, urc vec.Vec3) Mesh {
 	diag := urc.Sub(llc)
 	c0 := llc
-	c1 := llc.Add(vec.V3{diag.X, 0.0, 0.0})
-	c2 := llc.Add(vec.V3{0.0, diag.Y, 0.0})
-	c3 := llc.Add(vec.V3{0.0, 0.0, diag.Z})
-	c4 := llc.Add(vec.V3{diag.X, diag.Y, 0.0})
-	c5 := llc.Add(vec.V3{diag.X, 0.0, diag.Z})
-	c6 := llc.Add(vec.V3{0.0, diag.Y, diag.Z})
+	c1 := llc.Add(vec.Vec3{diag.X, 0.0, 0.0})
+	c2 := llc.Add(vec.Vec3{0.0, diag.Y, 0.0})
+	c3 := llc.Add(vec.Vec3{0.0, 0.0, diag.Z})
+	c4 := llc.Add(vec.Vec3{diag.X, diag.Y, 0.0})
+	c5 := llc.Add(vec.Vec3{diag.X, 0.0, diag.Z})
+	c6 := llc.Add(vec.Vec3{0.0, diag.Y, diag.Z})
 	c7 := urc
 
 	return Mesh{

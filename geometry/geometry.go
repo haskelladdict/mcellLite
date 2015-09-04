@@ -27,11 +27,11 @@ const GEOM_EPSILON_2 = 1e-24
 //
 // NOTE: This function was adapted from Dan Sunday
 // <http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()>
-func Intersect(start, disp vec.V3, m *MeshElem) (vec.V3, int) {
+func Intersect(start, disp vec.Vec3, m *MeshElem) (vec.Vec3, int) {
 
 	// if the normal vector is zero, triangle is degenerate
-	if (m.N).Equal(vec.NullV3) {
-		return vec.NullV3, 4
+	if (m.N).Equal(vec.NullVec3) {
+		return vec.NullVec3, 4
 	}
 
 	// compute intersection of ray from p0 along disp with plane in which m is
@@ -41,17 +41,17 @@ func Intersect(start, disp vec.V3, m *MeshElem) (vec.V3, int) {
 	b := (m.N).Dot(disp)
 	if math.Abs(b) < GEOM_EPSILON { // our ray is parallel to triangle plane
 		if util.Equal(a, 0.0) { // our ray is coplanar with the triangle
-			return vec.NullV3, 3
+			return vec.NullVec3, 3
 		} else {
-			return vec.NullV3, 2
+			return vec.NullVec3, 2
 		}
 	}
 
 	r := a / b
 	if r < 0 { // if ray points away from triangle plane we won't hit it
-		return vec.NullV3, 2
+		return vec.NullVec3, 2
 	} else if r > 1 { // if the ray segment doesn't reach the plane we won't hit it
-		return vec.NullV3, 1
+		return vec.NullVec3, 1
 	}
 	hitPoint := start.Add(disp.Scalar(r))
 

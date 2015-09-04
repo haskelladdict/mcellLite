@@ -9,7 +9,7 @@ import (
 	"github.com/haskelladdict/mcellLite/engine"
 	geom "github.com/haskelladdict/mcellLite/geometry"
 	mol "github.com/haskelladdict/mcellLite/molecule"
-	vec "github.com/haskelladdict/mcellLite/vector"
+	"github.com/haskelladdict/mcellLite/vec"
 )
 
 // Simulation contains all information related to simulation control such as

@@ -8,7 +8,7 @@ import (
 	"math"
 
 	"github.com/haskelladdict/mcellLite/util"
-	vec "github.com/haskelladdict/mcellLite/vector"
+	"github.com/haskelladdict/mcellLite/vec"
 )
 
 // these epsilon is used for geometrical comparison. Anything smaller than that
@@ -30,15 +30,15 @@ const GEOM_EPSILON_2 = 1e-24
 func Intersect(start, disp vec.V3, m *MeshElem) (vec.V3, int) {
 
 	// if the normal vector is zero, triangle is degenerate
-	if vec.Equal(m.N, vec.NullV3) {
+	if (m.N).Equal(vec.NullV3) {
 		return vec.NullV3, 4
 	}
 
 	// compute intersection of ray from p0 along disp with plane in which m is
 	// located
-	w0 := vec.Sub(start, m.A)
-	a := vec.Dot(m.N, w0)
-	b := vec.Dot(m.N, disp)
+	w0 := start.Sub(m.A)
+	a := (m.N).Dot(w0)
+	b := (m.N).Dot(disp)
 	if math.Abs(b) < GEOM_EPSILON { // our ray is parallel to triangle plane
 		if util.Equal(a, 0.0) { // our ray is coplanar with the triangle
 			return vec.NullV3, 3
@@ -53,16 +53,16 @@ func Intersect(start, disp vec.V3, m *MeshElem) (vec.V3, int) {
 	} else if r > 1 { // if the ray segment doesn't reach the plane we won't hit it
 		return vec.NullV3, 1
 	}
-	hitPoint := vec.Add(start, vec.Scalar(disp, r))
+	hitPoint := start.Add(disp.Scalar(r))
 
 	// now test that hitPoint is within the triangle
 	// we use local variables for efficiency
-	w := vec.Sub(hitPoint, m.A)
-	uu := vec.Dot(m.U, m.U)
-	uv := vec.Dot(m.U, m.V)
-	vv := vec.Dot(m.V, m.V)
-	wu := vec.Dot(w, m.U)
-	wv := vec.Dot(w, m.V)
+	w := hitPoint.Sub(m.A)
+	uu := (m.U).Dot(m.U)
+	uv := (m.U).Dot(m.V)
+	vv := (m.V).Dot(m.V)
+	wu := w.Dot(m.U)
+	wv := w.Dot(m.V)
 	D := uv*uv - uu*vv
 
 	// compute and test parametric coords

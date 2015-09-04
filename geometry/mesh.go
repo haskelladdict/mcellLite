@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/haskelladdict/mcellLite/util"
-	vec "github.com/haskelladdict/mcellLite/vector"
+	"github.com/haskelladdict/mcellLite/vec"
 )
 
 // MeshElem describes a single triangular mesh element which may be part of
@@ -24,16 +24,16 @@ type MeshElem struct {
 // NOTE: NewMeshElem assumes that v1, v2, v3 are not colinear, otherwise the
 // function will panic
 func NewMeshElem(v1, v2, v3 vec.V3) *MeshElem {
-	u := vec.Sub(v2, v1)
-	v := vec.Sub(v3, v1)
-	n := vec.Cross(u, v)
+	u := v2.Sub(v1)
+	v := v3.Sub(v1)
+	n := u.Cross(v)
 
 	// if the MeshElem is degenerate with panic
 	if util.Equal(n.Norm(), 0.0) {
 		panic(fmt.Sprintf("NewMeshElement: the provided vertices {%v, %v, %v} are colinear",
 			v1, v2, v3))
 	}
-	return &MeshElem{A: v1, B: v2, C: v3, U: u, V: v, N: n, NN: vec.Scalar(n, 1/n.Norm())}
+	return &MeshElem{A: v1, B: v2, C: v3, U: u, V: v, N: n, NN: n.Scalar(1 / n.Norm())}
 }
 
 // Mesh is a collection of MeshElements
@@ -43,14 +43,14 @@ type Mesh []MeshElem
 // 12 individual MeshElem. The rectangle dimensions are specified by providing
 // the coordinates of the lower left and upper right vertex
 func CreateRect(llc, urc vec.V3) Mesh {
-	diag := vec.Sub(urc, llc)
+	diag := urc.Sub(llc)
 	c0 := llc
-	c1 := vec.Add(llc, vec.V3{diag.X, 0.0, 0.0})
-	c2 := vec.Add(llc, vec.V3{0.0, diag.Y, 0.0})
-	c3 := vec.Add(llc, vec.V3{0.0, 0.0, diag.Z})
-	c4 := vec.Add(llc, vec.V3{diag.X, diag.Y, 0.0})
-	c5 := vec.Add(llc, vec.V3{diag.X, 0.0, diag.Z})
-	c6 := vec.Add(llc, vec.V3{0.0, diag.Y, diag.Z})
+	c1 := llc.Add(vec.V3{diag.X, 0.0, 0.0})
+	c2 := llc.Add(vec.V3{0.0, diag.Y, 0.0})
+	c3 := llc.Add(vec.V3{0.0, 0.0, diag.Z})
+	c4 := llc.Add(vec.V3{diag.X, diag.Y, 0.0})
+	c5 := llc.Add(vec.V3{diag.X, 0.0, diag.Z})
+	c6 := llc.Add(vec.V3{0.0, diag.Y, diag.Z})
 	c7 := urc
 
 	return Mesh{

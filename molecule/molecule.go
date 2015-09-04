@@ -4,7 +4,7 @@
 // Licensed under BSD license, see LICENSE file for details
 package molecule
 
-import "github.com/haskelladdict/mcellLite/vector"
+import "github.com/haskelladdict/mcellLite/vec"
 
 // Species represents a molecule type
 type Species struct {
@@ -14,12 +14,12 @@ type Species struct {
 
 // Molecule represents a volume (3D) molecule
 type Mol3 struct {
-	Spec *Species  // what species are we
-	R    vector.V3 // where are we
-	Bday float64   // when were we born
+	Spec *Species // what species are we
+	R    vec.V3   // where are we
+	Bday float64  // when were we born
 }
 
 // moveTo moves the given molecule to the specified position
-func (m *Mol3) MoveTo(newPos vector.V3) {
+func (m *Mol3) MoveTo(newPos vec.V3) {
 	m.R = newPos
 }

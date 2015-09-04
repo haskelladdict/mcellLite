@@ -11,7 +11,7 @@ import (
 
 	geom "github.com/haskelladdict/mcellLite/geometry"
 	"github.com/haskelladdict/mcellLite/molecule"
-	vec "github.com/haskelladdict/mcellLite/vector"
+	"github.com/haskelladdict/mcellLite/vec"
 )
 
 // Diffuse diffuses a molecule along the provided displacement vector,
@@ -28,7 +28,7 @@ func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 		fmt.Println("diffusing ", disp)
 		mol.MoveTo(hitPoint)
 	}
-	mol.MoveTo(vec.Add(mol.R, disp))
+	mol.MoveTo((mol.R).Add(disp))
 	fmt.Println(mol)
 }
 
@@ -42,25 +42,25 @@ func Collide(mol *molecule.Mol3, disp vec.V3, mesh geom.Mesh) (vec.V3, bool) {
 		if status != 0 {
 			continue // didn't hit mesh element
 		}
-		dispRem := vec.Sub(hitPoint, mol.R)
+		dispRem := hitPoint.Sub(mol.R)
 
 		// reflect: Rr = Ri - 2 N (Ri * N)
-		disp = vec.Sub(dispRem, vec.Scalar(m.NN, 2*(vec.Dot(dispRem, m.NN))))
+		disp = dispRem.Sub((m.NN).Scalar(2 * (dispRem.Dot(m.NN))))
 
 		// move slightly away from the triangle along the reflected ray.
 		// If we happen to end our ray at hitpoint we move along the triangle
 		// normal instead.
 		if disp.Norm2() > geom.GEOM_EPSILON_2 {
 			n := disp.Norm()
-			dispN := vec.Scalar(disp, 1.0/n)
-			hitPoint = vec.Add(hitPoint, vec.Scalar(dispN, geom.GEOM_EPSILON))
-			disp = vec.Scalar(dispN, n-geom.GEOM_EPSILON)
+			dispN := disp.Scalar(1.0 / n)
+			hitPoint = hitPoint.Add(dispN.Scalar(geom.GEOM_EPSILON))
+			disp = dispN.Scalar(n - geom.GEOM_EPSILON)
 		} else {
 			side := 1.0
-			if proj := vec.Dot(dispRem, m.NN); proj >= 0 {
+			if proj := dispRem.Dot(m.NN); proj >= 0 {
 				side = -1.0
 			}
-			hitPoint = vec.Add(hitPoint, vec.Scalar(m.NN, side*geom.GEOM_EPSILON))
+			hitPoint = hitPoint.Add((m.NN).Scalar(side * geom.GEOM_EPSILON))
 		}
 		return hitPoint, true
 	}

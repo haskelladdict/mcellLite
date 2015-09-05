@@ -8,7 +8,7 @@ import (
 
 	"github.com/haskelladdict/mcellLite/engine"
 	geom "github.com/haskelladdict/mcellLite/geometry"
-	mol "github.com/haskelladdict/mcellLite/molecule"
+	"github.com/haskelladdict/mcellLite/mol"
 	"github.com/haskelladdict/mcellLite/vec"
 )
 

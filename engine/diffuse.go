@@ -10,13 +10,13 @@ import (
 	"math/rand"
 
 	geom "github.com/haskelladdict/mcellLite/geometry"
-	"github.com/haskelladdict/mcellLite/molecule"
+	"github.com/haskelladdict/mcellLite/mol"
 	"github.com/haskelladdict/mcellLite/vec"
 )
 
 // Diffuse diffuses a molecule along the provided displacement vector,
 // potentially reflecting off of mesh elements until the motion is complete.
-func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
+func Diffuse(mol *mol.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 	// compute displacement
 	scale := math.Sqrt(4 * mol.Spec.D * dt)
 	disp := vec.Vec3{scale * rng.NormFloat64(), scale * rng.NormFloat64(),
@@ -32,7 +32,7 @@ func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 // Collide checks for collisions of molecule mol along disp with mesh elements
 // If a collisions occurs it returns the hitPoint and true. If no collision
 // occurs it returns nil and false
-func Collide(mol *molecule.Mol3, disp vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
+func Collide(mol *mol.Mol3, disp vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
 
 	for _, m := range mesh {
 		hitPoint, status := geom.Intersect(mol.R, disp, &m)

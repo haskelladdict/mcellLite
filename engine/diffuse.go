@@ -9,7 +9,7 @@ import (
 	"math"
 	"math/rand"
 
-	geom "github.com/haskelladdict/mcellLite/geometry"
+	"github.com/haskelladdict/mcellLite/geom"
 	"github.com/haskelladdict/mcellLite/mol"
 	"github.com/haskelladdict/mcellLite/vec"
 )

@@ -1,4 +1,4 @@
-// Package types defines the different MCell types
+// Package mol defines the different MCell molecule types
 //
 // Copyright 2015 Markus Dittrich
 // Licensed under BSD license, see LICENSE file for details

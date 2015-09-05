@@ -14,8 +14,10 @@ import (
 // these epsilon is used for geometrical comparison. Anything smaller than that
 // is assumed to be identical.
 // FIXME: This is currently chosen arbitrarily and requires more thinking.
-const GEOM_EPSILON = 1e-12
-const GEOM_EPSILON_2 = 1e-24
+const (
+	GEOM_EPSILON   = 1e-12
+	GEOM_EPSILON_2 = 1e-24
+)
 
 // Intersect tests for ray triangle intersections. Possible return values are
 //  0: triangle and ray segment intersect, in this case hitPoint contains the

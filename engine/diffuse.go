@@ -22,14 +22,11 @@ func Diffuse(mol *molecule.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 	disp := vec.Vec3{scale * rng.NormFloat64(), scale * rng.NormFloat64(),
 		scale * rng.NormFloat64()}
 
-	fmt.Println(disp, mol)
-	hitPoint, ok := Collide(mol, disp, mesh)
-	for ; ok; hitPoint, ok = Collide(mol, disp, mesh) {
+	for hitp, ok := Collide(mol, disp, mesh); ok; hitp, ok = Collide(mol, disp, mesh) {
 		fmt.Println("diffusing ", disp)
-		mol.MoveTo(hitPoint)
+		mol.MoveTo(hitp)
 	}
 	mol.MoveTo((mol.R).Add(disp))
-	fmt.Println(mol)
 }
 
 // Collide checks for collisions of molecule mol along disp with mesh elements

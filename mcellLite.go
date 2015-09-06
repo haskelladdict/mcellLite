@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
+	"runtime/pprof"
 
 	"github.com/haskelladdict/mcellLite/engine"
 	"github.com/haskelladdict/mcellLite/geom"
@@ -17,6 +19,14 @@ import (
 const outPath = "/Users/markus/programming/go/src/github.com/haskelladdict/mcellLite/tests/viz_data"
 
 func main() {
+
+	file, err := os.Create("profile")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	pprof.StartCPUProfile(file)
+	defer pprof.StopCPUProfile()
 
 	var numIters int64 = 100
 	a := mol.Species{"A", 600}

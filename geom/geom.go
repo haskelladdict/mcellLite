@@ -39,7 +39,7 @@ func Intersect(start, disp vec.Vec3, m *MeshElem) (vec.Vec3, int) {
 	// compute intersection of ray from p0 along disp with plane in which m is
 	// located
 	w0 := start.Sub(m.A)
-	a := (m.N).Dot(w0)
+	a := -(m.N).Dot(w0)
 	b := (m.N).Dot(disp)
 	if math.Abs(b) < GEOM_EPSILON { // our ray is parallel to triangle plane
 		if util.Equal(a, 0.0) { // our ray is coplanar with the triangle

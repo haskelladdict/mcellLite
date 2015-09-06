@@ -65,5 +65,6 @@ func CreateRect(llc, urc vec.Vec3) Mesh {
 		*NewMeshElem(c5, c7, c6),
 		*NewMeshElem(c5, c6, c3),
 		*NewMeshElem(c0, c2, c1),
+		*NewMeshElem(c1, c2, c4),
 	}
 }

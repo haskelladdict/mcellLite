@@ -5,7 +5,6 @@
 package engine
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 
@@ -22,8 +21,7 @@ func Diffuse(mol *mol.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 	disp := vec.Vec3{scale * rng.NormFloat64(), scale * rng.NormFloat64(),
 		scale * rng.NormFloat64()}
 
-	for hitp, ok := Collide(mol, disp, mesh); ok; hitp, ok = Collide(mol, disp, mesh) {
-		fmt.Println("diffusing ", disp)
+	for hitp, ok := Collide(mol, &disp, mesh); ok; hitp, ok = Collide(mol, &disp, mesh) {
 		mol.MoveTo(hitp)
 	}
 	mol.MoveTo((mol.R).Add(disp))
@@ -32,17 +30,17 @@ func Diffuse(mol *mol.Mol3, dt float64, mesh geom.Mesh, rng *rand.Rand) {
 // Collide checks for collisions of molecule mol along disp with mesh elements
 // If a collisions occurs it returns the hitPoint and true. If no collision
 // occurs it returns nil and false
-func Collide(mol *mol.Mol3, disp vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
+func Collide(mol *mol.Mol3, disp *vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
 
 	for _, m := range mesh {
-		hitPoint, status := geom.Intersect(mol.R, disp, &m)
+		hitPoint, status := geom.Intersect(mol.R, *disp, &m)
 		if status != 0 {
 			continue // didn't hit mesh element
 		}
 		dispRem := hitPoint.Sub(mol.R)
 
 		// reflect: Rr = Ri - 2 N (Ri * N)
-		disp = dispRem.Sub((m.NN).Scalar(2 * (dispRem.Dot(m.NN))))
+		*disp = dispRem.Sub((m.NN).Scalar(2 * (dispRem.Dot(m.NN))))
 
 		// move slightly away from the triangle along the reflected ray.
 		// If we happen to end our ray at hitpoint we move along the triangle
@@ -51,7 +49,7 @@ func Collide(mol *mol.Mol3, disp vec.Vec3, mesh geom.Mesh) (vec.Vec3, bool) {
 			n := disp.Norm()
 			dispN := disp.Scalar(1.0 / n)
 			hitPoint = hitPoint.Add(dispN.Scalar(geom.GEOM_EPSILON))
-			disp = dispN.Scalar(n - geom.GEOM_EPSILON)
+			*disp = dispN.Scalar(n - geom.GEOM_EPSILON)
 		} else {
 			side := 1.0
 			if proj := dispRem.Dot(m.NN); proj >= 0 {

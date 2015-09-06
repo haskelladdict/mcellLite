@@ -6,6 +6,10 @@ package mol
 
 import "github.com/haskelladdict/mcellLite/vec"
 
+// MolMap is a dictionary with species names as keys and an arrays of molecules
+// of that type a values
+type MolMap map[string][]*Mol3
+
 // Species represents a molecule type
 type Species struct {
 	Name string  // species name

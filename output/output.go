@@ -5,6 +5,7 @@
 package output
 
 import (
+	"bufio"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -35,39 +36,41 @@ func WriteCB(molMap mol.MolMap, outPath, fileName string, iter int64) error {
 	}
 	defer file.Close()
 
+	w := bufio.NewWriter(file)
+
 	// write version info
 	var version uint32 = 1
-	if err := writeUint32(file, version); err != nil {
+	if err := writeUint32(w, version); err != nil {
 		return err
 	}
 
 	// write molecules
 	for sp, mols := range molMap {
 		// write species info
-		if err := writeUint8(file, uint8(len(sp))); err != nil {
+		if err := writeUint8(w, uint8(len(sp))); err != nil {
 			return err
 		}
-		if n, err := file.Write([]byte(sp)); err != nil || len(sp) != n {
+		if n, err := w.Write([]byte(sp)); err != nil || len(sp) != n {
 			return err
 		}
 
 		// write mol type (0 = volume molecule)
-		if err := writeUint8(file, 0); err != nil {
+		if err := writeUint8(w, 0); err != nil {
 			return err
 		}
 
 		// write number of molecules and then molecule info
-		if err := writeUint32(file, 3*uint32(len(mols))); err != nil {
+		if err := writeUint32(w, 3*uint32(len(mols))); err != nil {
 			return err
 		}
 		for _, mol := range mols {
-			if err := writeUint32(file, math.Float32bits(float32(mol.R.X))); err != nil {
+			if err := writeUint32(w, math.Float32bits(float32(mol.R.X))); err != nil {
 				return err
 			}
-			if err := writeUint32(file, math.Float32bits(float32(mol.R.Y))); err != nil {
+			if err := writeUint32(w, math.Float32bits(float32(mol.R.Y))); err != nil {
 				return err
 			}
-			if err := writeUint32(file, math.Float32bits(float32(mol.R.Z))); err != nil {
+			if err := writeUint32(w, math.Float32bits(float32(mol.R.Z))); err != nil {
 				return err
 			}
 		}
